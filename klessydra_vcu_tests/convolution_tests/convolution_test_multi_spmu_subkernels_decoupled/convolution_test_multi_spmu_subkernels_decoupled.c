@@ -18,7 +18,7 @@ so in this approach each thread has a REGION of the output matrix to work on
 #define PRINT_NUM_CYCLES 1 // to print the cycle count
 #endif
 
-#define PRINT_DEBUG 1 //to check if matrix is correct
+//#define PRINT_DEBUG 1 //to check if matrix is correct
 //don't change these :P
 // // //#define MATRIX_CHECK_THREAD 0
 //#define MATRIX_CHECK 0 //in the de-coupled method, but with dedicated_SPMU, this can be done
@@ -242,7 +242,6 @@ int main(){
 			#endif
 			// ------------------------------------------------------------------------------------------
 		}
-
 		if (Klessydra_get_coreID() == 2) {
 			// ENABLE COUNTING -------------------------------------------------------------------------
 			#ifdef PRINT_NUM_CYCLES
@@ -257,24 +256,25 @@ int main(){
 				convolution2D_SPM_off_NOB_print_region_2 ((void*)(	(int*)spmaddrC+	 memory_offset[off_idx]	), (void*)(	(int*)spmaddrA+	 memory_offset[off_idx]	), (void*)(	(int*)spmaddrB+  memory_offset[off_idx]	), (void*)(	(int*)spmaddrD+	 memory_offset[off_idx]	),	A_ORDER);
 				convolution2D_SPM_off_NOB_print_region_3 ((void*)(	(int*)spmaddrC+	 memory_offset[off_idx]	), (void*)(	(int*)spmaddrA+	 memory_offset[off_idx]	), (void*)(	(int*)spmaddrB+  memory_offset[off_idx]	), (void*)(	(int*)spmaddrD+	 memory_offset[off_idx]	),	A_ORDER);
 			}
-			kmemstr((void*)((int*)output_compare_s2 				),
+			kmemstr((void*)((int*)output_compare_s2),
 			 				(void*)((int*)spmaddrC+memory_offset[off_idx]	),
 							SIZE_OF_INT*(	A_ORDER*A_ORDER));
-			// DISABLE COUNTING AND SAVE MCYCLE -------------------------------------------------------
+			// DISABLE COUNTING AND SAVE MCYCLE ---------------------------------------------------------
 			#ifdef PRINT_NUM_CYCLES
 				ptr_perf = Klessydra_perf_cnt_finish();
 			#endif
 			// ------------------------------------------------------------------------------------------
 		}
-		sync_barrier();
 
-		for (int i=0; i<3; i++){
+		for (int i=0; i<3; i++) {
 			if (Klessydra_get_coreID() == i) {
-				for (int j=0; j<8; j++){
+				for (int j=0; j<8; j++) {
 					final_perf[i][j]=(ptr_perf[j]);
 				}
 			}
     }
+
+		sync_barrier();
 
 		//--------------------------------------CHECK RESULTS--------------------------------------------------
 		//--------------------------------------CHECK RESULTS--------------------------------------------------
@@ -291,11 +291,11 @@ int main(){
 				printf("\n");
 				for (int i=0; i<3; i++) {
 					printf(" Cycle Count = %d \n Instruction Count = %d \n Instruction wait = %d \n Load Count = %d \n Store Count = %d \n Unconditional Jump Count = %d \n Branch Count = %d \n Taken Count = %d \n \n", 
-							 final_perf[i][0]/3, final_perf[i][1]/3, final_perf[i][2]/3, final_perf[i][3]/3, final_perf[i][4]/3, final_perf[i][5]/3, final_perf[i][6]/3, final_perf[i][7]/3);
+							 final_perf[i][0], final_perf[i][1], final_perf[i][2], final_perf[i][3], final_perf[i][4], final_perf[i][5], final_perf[i][6], final_perf[i][7]);
 				}
 				printf("\n");
 			#endif
-			
+
 			#ifdef MATRIX_CHECK_THREAD
 				printf("Convolution with Multiplier (single thread) Speed is:\t%d Cycles\n", final_perf_mem);
 				printf("DEBUG_matrix_check_thread\n");
@@ -325,13 +325,9 @@ int main(){
 				matrix_check((int*)output_compare_s0,(int*)output_compare0, A_ORDER);
 				printf("\n");
 			#endif
-
 		}
 		sync_barrier();
 	#endif
-
-
-
 
 	return 0;
 }

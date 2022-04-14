@@ -1,1 +1,1 @@
-add_application(matmul RI5CY_matmul.c LABELS "klessydra_tests")
+add_application(matmul klessydra_matmul_3SPM_dedicated.c LABELS "klessydra_tests")
