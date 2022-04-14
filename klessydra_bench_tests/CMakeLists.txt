@@ -1,1 +1,2 @@
-add_subdirectory(fft_accl)
+add_subdirectory(cfd)
+add_subdirectory(CoreMark)
