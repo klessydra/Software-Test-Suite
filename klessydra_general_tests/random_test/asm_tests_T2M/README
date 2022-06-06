@@ -10,37 +10,37 @@
 
     TO ENABLE ONLY THREAD 0
     _start:           
-                  csrr x5, 0xf10
+                  csrr x5, 0xf14
                   li x6, 0
                   bne x5, x6, wfi
 
     TO ENABLE ONLY THREAD 1
     _start:           
-                  csrr x5, 0xf10
+                  csrr x5, 0xf14
                   li x6, 1
                   bne x5, x6, wfi
 
     TO ENABLE ONLY THREAD 2
     _start:           
-                  csrr x5, 0xf10
+                  csrr x5, 0xf14
                   li x6, 2
                   bne x5, x6, wfi
 
     TO DISABLE THREAD 0
     _start:           
-                  csrr x5, 0xf10
+                  csrr x5, 0xf14
                   li x6, 0
                   beq x5, x6, wfi
 
     TO DISABLE THREAD 1
     _start:           
-                  csrr x5, 0xf10
+                  csrr x5, 0xf14
                   li x6, 1
                   beq x5, x6, wfi
 
     TO DISABLE THREAD 2
     _start:           
-                  csrr x5, 0xf10
+                  csrr x5, 0xf14
                   li x6, 2
                   beq x5, x6, wfi
 

@@ -2,7 +2,7 @@
 .section .text
 .option norvc;
 _start:           
-                  csrr x5, 0xf10
+                  csrr x5, 0xf14
                   li x6, 0
                   beq x5, x6, wfi
 
