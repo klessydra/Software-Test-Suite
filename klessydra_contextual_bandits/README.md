@@ -55,19 +55,19 @@ Both algorithms are composed by two phases:
 - model update: the obtained reward is used to update the model parameters.
 
 For algorithm Disjoint you can run:
-- make disjoint_algorithm -> to select the action;
-- make update_disjoint_algorithm -> to update the model as a function of reward and chosen_action written on "info.hpp"
+- ```make disjoint_algorithm ->``` to select the action;
+- ```make update_disjoint_algorithm ->``` to update the model as a function of reward and chosen_action written on "info.hpp"
 
 For alogirhtm Hybrid you can run:
-- make hybrid_algorithm -> to select the action;
-- make update_hybrid_algorithm -> to update the model as a function of reward and chosen_action written on "info.hpp"
+- ```make hybrid_algorithm ->``` to select the action;
+- ```make update_hybrid_algorithm ->``` to update the model as a function of reward and chosen_action written on "info.hpp"
 
 
 ---------------------------------------------------------------------------------
 To simulate the online functioning of CB algorithms, it's possible to run some
 bash script contained in sw/apps/klessydra_tests/klessydra_contextual_bandits/simulation_scripts
 These scripts simulate real online operation and have to be copied in sw/build.
-Then you can run ./exec.sh and ./exec_hybrid.sh to simulate Disjoint and Hybrid algorithms
+Then you can run ```./exec.sh``` and ```./exec_hybrid.sh``` to simulate Disjoint and Hybrid algorithms
 respectively. At each iteration:
 - an operation is requested,
 - the algorithm chooses the accelerator configuration
