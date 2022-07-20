@@ -87,10 +87,10 @@ pulpino-klessydra/sw/apps/CMakeLists.txt searching for the "vsimc" options and
 change them as follows:
 
 	OLD ->
-	    "COMMAND tcsh -c "${SETENV} ${VSIM}  -c -64 -do 'source tcl_files/$<TARGET_PROPERTY:${NAME}.elf,TB>\\; run -a\\;' >vsim.log""
+	     ```COMMAND tcsh -c "${SETENV} ${VSIM}  -c -64 -do 'source tcl_files/$<TARGET_PROPERTY:${NAME}.elf,TB>\\; run -a\\;' >vsim.log" ```
 	
 	NEW ->
-	 	"COMMAND tcsh -c "${SETENV} ${VSIM}  -c -64 -do 'source tcl_files/$<TARGET_PROPERTY:${NAME}.elf,TB>\\; run -a\\; mem save -o /home/marco/pulpino-klessydra/sw/build/memory2.mem -f mti -data decimal -addr hex /tb/top_i/core_region_i/mem_gen/data_mem/sp_ram_i/mem \\; exit\\;' >vsim.log""
+	 	 ```COMMAND tcsh -c "${SETENV} ${VSIM}  -c -64 -do 'source tcl_files/$<TARGET_PROPERTY:${NAME}.elf,TB>\\; run -a\\; mem save -o /home/marco/pulpino-klessydra/sw/build/memory2.mem -f mti -data decimal -addr hex /tb/top_i/core_region_i/mem_gen/data_mem/sp_ram_i/mem \\; exit\\;' >vsim.log" ```
 
 
 
