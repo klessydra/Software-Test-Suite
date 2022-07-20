@@ -1,1 +1,0 @@
-add_application(hybrid_algorithm_opt hybrid_algorithm_opt.cpp LABELS "klessydra_tests")
