@@ -67,6 +67,7 @@ For alogirhtm Hybrid you can run:
 To simulate the online functioning of CB algorithms, it's possible to run some
 bash script contained in sw/apps/klessydra_tests/klessydra_contextual_bandits/simulation_scripts
 These scripts simulate real online operation and have to be copied in sw/build.
+Remember to give the execution permission to bash files (chmod +x file_name).
 Then you can run ```./exec.sh``` and ```./exec_hybrid.sh``` to simulate Disjoint and Hybrid algorithms
 respectively. At each iteration:
 - an operation is requested,
