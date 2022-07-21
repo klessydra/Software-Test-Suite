@@ -29,7 +29,6 @@
 // The problem parameters (D and K) are defined in cb_libs/params.hpp.
 // -----------------------------------------------------------------------
 #include "values.hpp"
-
 fixed_point computed_arm_ucb[K];                            // fixed_point array containing the UCB computed for every action
 Linear_UCB_Disjoint linucb_disjoint_policy_object(K,D,0.5); // Disjoint model, the last parameter is alpha
 int main()

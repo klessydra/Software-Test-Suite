@@ -66,7 +66,7 @@ int main()
    #else
       #if D == 14
          matrix<D,1> ct={.value={{0},{0},{1<<SHIFT_AMOUNT},{0},{1<<SHIFT_AMOUNT},{0},{0},{0},{0},{0},{0},{1<<SHIFT_AMOUNT},{1<<SHIFT_AMOUNT},{0}}};  // FFT with 14 feature size
-      #else-
+      #else
          matrix<D,1> ct; 
       #endif
    #endif

@@ -1,10 +1,10 @@
 #!/bin/bash
-#██╗░░██╗██╗░░░██╗██████╗░██████╗░██╗██████╗░
-#██║░░██║╚██╗░██╔╝██╔══██╗██╔══██╗██║██╔══██╗
-#███████║░╚████╔╝░██████╦╝██████╔╝██║██║░░██║
-#██╔══██║░░╚██╔╝░░██╔══██╗██╔══██╗██║██║░░██║
-#██║░░██║░░░██║░░░██████╦╝██║░░██║██║██████╔╝
-#╚═╝░░╚═╝░░░╚═╝░░░╚═════╝░╚═╝░░╚═╝╚═╝╚═════╝░
+# ██╗░░██╗██╗░░░██╗██████╗░██████╗░██╗██████╗░
+# ██║░░██║╚██╗░██╔╝██╔══██╗██╔══██╗██║██╔══██╗
+# ███████║░╚████╔╝░██████╦╝██████╔╝██║██║░░██║
+# ██╔══██║░░╚██╔╝░░██╔══██╗██╔══██╗██║██║░░██║
+# ██║░░██║░░░██║░░░██████╦╝██║░░██║██║██████╔╝
+# ╚═╝░░╚═╝░░░╚═╝░░░╚═════╝░╚═╝░░╚═╝╚═╝╚═════╝░
 #
 #	░██████╗██╗███╗░░░███╗██╗░░░██╗██╗░░░░░░█████╗░████████╗██╗░█████╗░███╗░░██╗
 #	██╔════╝██║████╗░████║██║░░░██║██║░░░░░██╔══██╗╚══██╔══╝██║██╔══██╗████╗░██║
@@ -49,7 +49,7 @@ fi
 echo "--------------------------------------"
 echo -e "\e[91mState 0:\e[39m initialization "
 echo "--------------------------------------"
-echo -e "\e[94m1)\e[39m starting configuration -> ";  ./cmake_configure.klessydra-t1-3th.gcc.sh 3 3 2 					# Starting architecture configuration
+echo -e "\e[94m1)\e[39m starting configuration -> ";  ./cmake_configure.klessydra-m.gcc.sh 3 3 2 					# Starting architecture configuration
 echo -e "\e[94m2)\e[39m values.cpp reset ";			  cp clean.txt ../libs/klessydra_lib/cb_libs/src/values.cpp 	  # Values.cpp file is initialized as empty
 echo -e "\e[94m3)\e[39m vcompile ->"; 				  make vcompile													                          # make vcompile for compiling rtl architecture 
 echo -e "\e[94m4)\e[39m compile all programs ->";												
@@ -60,7 +60,7 @@ echo -n "Start time: " >>log_hybrid.txt
 date +"%H:%M:%S" >> log_hybrid.txt
 
 # D PARAM:
-Context_dim=14
+Context_dim=4
 
 
 
@@ -215,7 +215,7 @@ do
 	echo "--------------------------------------------------------------------"
 	echo -e "\e[91mState2:\e[39m architecture reconfiguration"
 	echo "--------------------------------------------------------------------"
-	./cmake_configure.klessydra-t1-3th.gcc.sh $M $F $D
+	./cmake_configure.klessydra-m.gcc.sh $M $F $D
 
 	# --------------------------------------------------------------
 	# State 3: script execution and reward computation			       -
@@ -316,7 +316,7 @@ do
 	echo "static constexpr float reward = $norm_reward;" >> ../libs/klessydra_lib/cb_libs/inc/info.hpp
 
   # Set again the configuration used to run our script
-  ./cmake_configure.klessydra-t1-3th.gcc.sh 3 3 2
+  ./cmake_configure.klessydra-m.gcc.sh 3 3 2
   
 	# --------------------------------------------------------------
 	# State 4: model parameters update and save			   -
