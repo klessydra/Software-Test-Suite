@@ -83,15 +83,15 @@ to the following process:
 
 \* NOTE 1: increasing the model parameters could require a bigger memory space.
 In order to increase program memory and/or datamemory you have to modify the following files:
- - pulpino-klessydra/sw/refs/link.boot.ld   # For change in rom or stack
- - pulpino-klessydra/sw/refs/link.common.ld # For change in instrram, dataram or stack
- - pulpino-klessydra/rtl/core_region.sv     # change DATA_RAM_SIZE & INSTR_RAM_SIZE rows
- - pulpino-klessydra/rtl/instr_ram_wrap.sv  # change INSTR_RAM size row
- - pulpino-klessydra/rtl/sp_ram_wrap.sv     # change RAM_SIZE row
- - pulpino-klessydra/sw/utils/s19toboot.py  # Only for change in ROM size and/or starting address
- - pulpino-klessydra/sw/utils/s19toslm.py   # Only for change in ROM size and/or starting address
+ - pulpino-klessydra/sw/refs/link.boot.ld   --> For change in rom or stack
+ - pulpino-klessydra/sw/refs/link.common.ld --> For change in instrram, dataram or stack
+ - pulpino-klessydra/rtl/core_region.sv     --> change DATA_RAM_SIZE & INSTR_RAM_SIZE rows
+ - pulpino-klessydra/rtl/instr_ram_wrap.sv  --> change INSTR_RAM size row
+ - pulpino-klessydra/rtl/sp_ram_wrap.sv     --> change RAM_SIZE row
+ - pulpino-klessydra/sw/utils/s19toboot.py  --> Only for change in ROM size and/or starting address
+ - pulpino-klessydra/sw/utils/s19toslm.py   --> Only for change in ROM size and/or starting address
 
-\*\* NOTE: to save the Data memory on ModelSim, you have to modify the file 
+\*\* NOTE 2: to save the Data memory on ModelSim, you have to modify the file 
 pulpino-klessydra/sw/apps/CMakeLists.txt searching for the "vsimc" options and
 change them as follows:
 
