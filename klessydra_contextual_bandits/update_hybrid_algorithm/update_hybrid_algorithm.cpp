@@ -49,8 +49,7 @@ int main()
    #endif                             // cmake_configure file, while for hybrid you need count_all=1 (because there are code sections in which sequential and parallel execution)
                                       // are both presents.
   
-   //offline_mode();                   // Configuration choice  
-   init();                             // Model parameters are initialized in values.cpp
+   init_h();                             // Model parameters are initialized in values.cpp
 
    // Context feature vector: 
    // -  operation = 1 -> FFT 256 samples
@@ -90,6 +89,7 @@ int main()
   linucb_hybrid_policy_object.update_shared_features_matrices_phase2(data_z_array,reward,linucb_hybrid_policy_object.linucb_arms[chosen_action].B,\
                                                                                          linucb_hybrid_policy_object.linucb_arms[chosen_action].A,\
                                                                                          linucb_hybrid_policy_object.linucb_arms[chosen_action].b);
+
   // Optimized_print:
   if (Klessydra_get_coreID() == 0)
     printf("i_addr: 0x%x\n",((unsigned)&linucb_hybrid_policy_object.linucb_arms[0] - 0x100000)/4);
@@ -106,14 +106,13 @@ int main()
       #endif
       }
    #endif
-
+   
   #if SINGLE_THREAD==1
-  return 0;
   }
   else
     __asm__("wfi;");                   // In single thread execution mode, thread 1 and 2 are in WFI state
   #endif
 
-  
-  return 0;
+ return 0;
 }
+

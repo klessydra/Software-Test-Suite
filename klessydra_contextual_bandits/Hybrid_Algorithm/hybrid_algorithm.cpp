@@ -53,7 +53,7 @@ int main()
                                       // are both presents.
   
    //offline_mode();                   // Configuration choice  
-   init();                             // Model parameters are initialized in values.cpp
+   init_h();                             // Model parameters are initialized in values.cpp
 
    // Context feature vector: 
    // -  operation = 1 -> FFT 256 samples
