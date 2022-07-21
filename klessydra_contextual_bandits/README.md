@@ -80,6 +80,7 @@ to the following process:
 - the memory is saved on ModelSim\*\*
 - some script are executed to elaborate memory and produce a file values.cpp
   that is included in the main script and initializes every model element.
+---------------------------------------------------------------------------------
 
 \* NOTE 1: increasing the model parameters could require a bigger memory space.
 In order to increase program memory and/or datamemory you have to modify the following files:
