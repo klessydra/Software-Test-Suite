@@ -84,6 +84,7 @@ to the following process:
 ---------------------------------------------------------------------------------
 
 \* NOTE 1: increasing the model parameters could require a bigger memory space.
+This is necessary for executing hybrid algorithm that is more complex.
 In order to increase program memory and/or datamemory you have to modify the following files:
  - pulpino-klessydra/sw/refs/link.boot.ld   --> For change in rom or stack
  - pulpino-klessydra/sw/refs/link.common.ld --> For change in instrram, dataram or stack
