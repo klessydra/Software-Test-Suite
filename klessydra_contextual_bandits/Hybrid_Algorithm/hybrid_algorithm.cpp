@@ -30,7 +30,7 @@
 // The problem parameters (D, AF and K) are defined in cb_libs/params_hybrid.hpp.
 // -----------------------------------------------------------------------
 
-#include "offline_script_hybrid.hpp"
+#include "values_h.hpp"
 Linear_UCB_Hybrid linucb_hybrid_policy_object(KA,D,K,0.2);
 matrix<K,K> A_node_inv;                      // Inverse matrix for A-node
 matrix<K,1> beta_hat;

@@ -28,7 +28,6 @@
 // compute UCB for every possible configuration and choosing the max one.
 // The problem parameters (D and K) are defined in cb_libs/params.hpp.
 // -----------------------------------------------------------------------
-#define DISJOINT 1
 #include "values.hpp"
 
 fixed_point computed_arm_ucb[K];                            // fixed_point array containing the UCB computed for every action
