@@ -44,7 +44,7 @@ action there are four matrices.
 In both algorithms, the context is modeled by a feature vector of size D,
 while the action is modeled with a feature vector of size AF. 
 These parameters depend on the problem and can be set in files
-params.hpp and params_hybrid.hpp (respectively for Disjoint and Hybrid).
+params.hpp and params_hybrid.hpp (respectively for Disjoint and Hybrid)\*.
 If you want to model a new problem as a CB algorithm, you have to modify these
 parameters, the action encoding and the context encoding.
 
@@ -77,12 +77,21 @@ respectively. At each iteration:
 
 To do this, the model parameters are transferred between different iterations thanks
 to the following process:
-- the memory is saved on ModelSim*
+- the memory is saved on ModelSim\*\*
 - some script are executed to elaborate memory and produce a file values.cpp
   that is included in the main script and initializes every model element.
 
+\* NOTE 1: increasing the model parameters could require a bigger memory space.
+In order to increase program memory and/or datamemory you have to modify the following files:
+ - pulpino-klessydra/sw/refs/link.boot.ld   # For change in rom or stack
+ - pulpino-klessydra/sw/refs/link.common.ld # For change in instrram, dataram or stack
+ - pulpino-klessydra/rtl/core_region.sv     # change DATA_RAM_SIZE & INSTR_RAM_SIZE rows
+ - pulpino-klessydra/rtl/instr_ram_wrap.sv  # change INSTR_RAM size row
+ - pulpino-klessydra/rtl/sp_ram_wrap.sv     # change RAM_SIZE row
+ - pulpino-klessydra/sw/utils/s19toboot.py  # Only for change in ROM size and/or starting address
+ - pulpino-klessydra/sw/utils/s19toslm.py   # Only for change in ROM size and/or starting address
 
-* NOTE: to save the Data memory on ModelSim, you have to modify the file 
+\*\* NOTE: to save the Data memory on ModelSim, you have to modify the file 
 pulpino-klessydra/sw/apps/CMakeLists.txt searching for the "vsimc" options and
 change them as follows:
 
@@ -90,7 +99,7 @@ change them as follows:
 	     ```COMMAND tcsh -c "${SETENV} ${VSIM}  -c -64 -do 'source tcl_files/$<TARGET_PROPERTY:${NAME}.elf,TB>\\; run -a\\;' >vsim.log" ```
 	
 	NEW ->
-	 	 ```COMMAND tcsh -c "${SETENV} ${VSIM}  -c -64 -do 'source tcl_files/$<TARGET_PROPERTY:${NAME}.elf,TB>\\; run -a\\; mem save -o /home/marco/pulpino-klessydra/sw/build/memory2.mem -f mti -data decimal -addr hex /tb/top_i/core_region_i/mem_gen/data_mem/sp_ram_i/mem \\; exit\\;' >vsim.log" ```
+	 	 ```COMMAND tcsh -c "${SETENV} ${VSIM}  -c -64 -do 'source tcl_files/$<TARGET_PROPERTY:${NAME}.elf,TB>\\; run -a\\; mem save -o /home/USERNAME/pulpino-klessydra/sw/build/memory2.mem -f mti -data decimal -addr hex /tb/top_i/core_region_i/mem_gen/data_mem/sp_ram_i/mem \\; exit\\;' >vsim.log" ```
 
 
 
