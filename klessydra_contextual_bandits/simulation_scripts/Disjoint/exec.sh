@@ -37,7 +37,7 @@ echo "--------------------------------------"
 echo -e "\e[94m1)\e[39m starting configuration -> ";  ./cmake_configure.klessydra-m.gcc.sh  3 3 2 					# Starting architecture configuration
 echo -e "\e[94m2)\e[39m values.cpp reset ";			  cp clean.txt ../libs/klessydra_lib/cb_libs/src/values.cpp 	# Values.cpp file is initialized as empty
 echo -e "\e[94m3)\e[39m vcompile ->"; 				  make vcompile													# make vcompile for compiling rtl architecture 
-echo -e "\e[94m4)\e[39m compile all programs ->";	  make disjoint_algorithm && make update_disjoint_algorithm && make perfbench.fft_accl		
+echo -e "\e[94m4)\e[39m compile all programs ->";	  make disjoint_algorithm && make update_disjoint_algorithm && make fft_accl		
 
 # Initializing log file:
 echo -n "Log.txt ">log.txt																							# initializing log.txt file
@@ -223,7 +223,7 @@ do
 	if (($op==1))
 	then
 		echo "1) Running FFT script"
-		make perfbench.fft_accl.vsimc > results.txt													# FFT script is executed and the output is written on results.txt file
+		make fft_accl.vsimc > results.txt													# FFT script is executed and the output is written on results.txt file
 	else
 		echo "1) Running MatMul script"
     	echo "#define mode $M">../libs/klessydra_lib/dsp_libs/inc/mode.h

@@ -37,7 +37,7 @@ then
 	exit
 fi
 
-# If arguments' number is correct, then D is the first one and add is the second one:
+# If arguments' number is correct, then D is the first one and the initial address is the second one:
 D=$1
 addr=$2
 SIZE=$((12*(D*D+D+D+3)+50))
@@ -50,7 +50,7 @@ final_line=$((($SIZE+$addr)/5))								# The final line is computed adding the S
 
 # File elaboration:
 cat memory2.mem|grep -v '//' > mem.txt 						# The first three rows are removed (heading)
-sed -n ${initial_line},${final_line}p mem.txt > output.txt  # Only the lines included between $initial_line and $final_line are maintained
+sed -n ${initial_line},${final_line}p mem.txt > output.txt  # Only the lines between $initial_line and $final_line are kept
 cat output.txt |cut -d ':' -f 2 > output2.txt      			# The first column (line number) is now removed 
 resto=$((addr % 5))											# It's important to note that the first element could be in any position of initial_line. 
 															# This position is identified by the remainder of the division (addr/5)
@@ -120,7 +120,7 @@ do
 				elif ((count==(($A_size+2*D))))
 				then
 					echo -n "${array[$i]}"
-					#Termine elemento:
+					#last element
 					A=0; b=1; theta=1;
 					echo -n " !"
 					count=-1

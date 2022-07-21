@@ -12,7 +12,7 @@ sed -iz 's/ !/}}};\n\n/g' matrices.txt   																# The ! char represents
 sed -ir 's/ /,/g' matrices.txt																			# Every space char is substituted by a comma  
 
 # Header initialization for values.cpp file
-echo "#include \"offline_script.hpp\"">final_matrices.hpp												# Necessary include in values.cpp file
+echo "#include \"values.hpp\"">final_matrices.hpp												# Necessary include in values.cpp file
 echo -e "void init()\n{\n">>final_matrices.hpp															# Function declaration
 
 # Incrementing index
