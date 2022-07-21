@@ -19,7 +19,7 @@ sed -iz 's/ !/}}};/g' matrices.txt   																	# The ! char represents th
 sed -ir 's/ /,/g' matrices.txt																			# Every space char is substituted by a comma  
 
 # Header initialization for values.cpp file
-echo "#include \"offline_script_hybrid.hpp\"">final_matrices.hpp												# Necessary include in values.cpp file
+echo "#include \"values_h.hpp\"">final_matrices.hpp												# Necessary include in values.cpp file
 echo -e "void init()\n{\n">>final_matrices.hpp															# Function declaration
 
 # Incrementing index
@@ -28,7 +28,7 @@ awk '{for(x=1;x<=NF;x++)if($x~/DDD/){sub(/DDD/,i++)}}1' matrices2.txt>matrices3.
 awk '{for(x=1;x<=NF;x++)if($x~/FFF/){sub(/FFF/,i++)}}1' matrices3.txt>matrices4.txt				# Assigning the correct index to theta definition
 awk '{for(x=1;x<=NF;x++)if($x~/GGG/){sub(/GGG/,i++)}}1' matrices4.txt>>final_matrices.hpp				# Assigning the correct index to theta definition
 echo -e "}">>final_matrices.hpp																			# Closing function
-cp final_matrices.hpp ../libs/klessydra_lib/cb_libs/src/values.cpp										# The final file is copied in the cb_libs library directory as values.cpp
+cp final_matrices.hpp ../libs/klessydra_lib/cb_libs/src/values_h.cpp										# The final file is copied in the cb_libs library directory as values.cpp
 
 # Remove temporary files:
 rm matrices.txt matrices2.txt matrices3.txt final_matrices.hpp											# Every file previously generated is deleted

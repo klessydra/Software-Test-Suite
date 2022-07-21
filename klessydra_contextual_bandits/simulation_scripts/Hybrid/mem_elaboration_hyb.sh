@@ -38,7 +38,7 @@ then
 fi
 
 # If arguments' number is correct, then D is the first one and add is the second one:
-AF=8										  # AF VALUE !!
+AF=3										  # AF VALUE !!
 D=$1
 K=$((D*AF))
 addr=$2

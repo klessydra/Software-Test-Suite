@@ -345,3 +345,4 @@ done
 
 echo -n "End time: " >>log_hybrid.txt
 date +"%H:%M:%S" >> log_hybrid.txt
+
