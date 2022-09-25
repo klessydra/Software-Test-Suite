@@ -16,7 +16,7 @@ the whole matrix
 #define NO_ACCEL 1
 
 #ifndef PRINT_NUM_CYCLES
-#define PRINT_NUM_CYCLES 1 // to print the cycle count
+//#define PRINT_NUM_CYCLES 1 // to print the cycle count
 #endif
 
 //-------------------------------------------------------------------------------------

@@ -9,13 +9,13 @@ so in this approach each thread has a REGION of the output matrix to work on
 ----------------------------------------------------------------------------------------------------
 */
 #ifndef A_ORDER
-#define A_ORDER 32//Matrix size, don't do 2x2 case, for that i have another test
+#define A_ORDER 16//Matrix size, don't do 2x2 case, for that i have another test
 #endif
 
 #define REPLICATION 1
 
 #ifndef PRINT_NUM_CYCLES
-#define PRINT_NUM_CYCLES 1 // to print the cycle count
+//#define PRINT_NUM_CYCLES 1 // to print the cycle count
 #endif
 
 //#define PRINT_DEBUG 1 //to check if matrix is correct
@@ -134,7 +134,7 @@ int main(){
   __asm__("csrrw zero, mcycle, zero");
 
 	CSR_MVSIZE(SPM_MAX*SPM_MAX*sizeof(int));
-	kbcast((void*)spmaddrA,(void*)azzero);
+	kbcast((void*)0x10000000,(void*)azzero);
 	kbcast((void*)spmaddrB,(void*)azzero);
 	kbcast((void*)spmaddrC,(void*)azzero);
 

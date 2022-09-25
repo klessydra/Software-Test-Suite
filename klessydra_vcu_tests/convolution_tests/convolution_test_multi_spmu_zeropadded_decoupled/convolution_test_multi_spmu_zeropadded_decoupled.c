@@ -12,7 +12,7 @@ Test
 // ----------------------------------------------------------------------------------------------------
 #define REPLICATION 1	
 #ifndef A_ORDER
-#define A_ORDER 32 //Matrix size, don't do 2x2 case, for that i have another test
+#define A_ORDER 16 //Matrix size, don't do 2x2 case, for that i have another test
 #endif
 #ifndef B_ORDER
 #define B_ORDER 3	//set to 3-5-7-9-11
@@ -38,10 +38,10 @@ Test
 // ----------------------------------------------------------------------------------------------------
 
 #ifndef PRINT_NUM_CYCLES
-#define PRINT_NUM_CYCLES 1 // to print the cycle count
+//#define PRINT_NUM_CYCLES 1 // to print the cycle count
 #endif
 
-#define PRINT_DEBUG 1 //to check if matrix is correct
+//#define PRINT_DEBUG 1 //to check if matrix is correct
 // #define MATRIX_CHECK 0
 
 #include <stdint.h>

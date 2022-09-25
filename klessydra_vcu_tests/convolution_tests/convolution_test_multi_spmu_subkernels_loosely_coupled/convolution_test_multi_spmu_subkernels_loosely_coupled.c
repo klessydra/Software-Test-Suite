@@ -15,7 +15,7 @@ so in this approach each thread has a REGION of the output matrix to work on
 #define REPLICATION 1
 
 #ifndef PRINT_NUM_CYCLES
-#define PRINT_NUM_CYCLES 1 // to print the cycle count
+//#define PRINT_NUM_CYCLES 1 // to print the cycle count
 #endif
 
 //#define PRINT_DEBUG 1 //to check if matrix is correct

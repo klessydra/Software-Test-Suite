@@ -938,10 +938,12 @@ if (Klessydra_get_coreID() == j) {
   }
 
   if (Klessydra_get_coreID() == 1) {
+    #if KLESSYDRA_PERF == 1 || RISCY_PERF == 1
     for (int i=0; i<3; i++) {
       printf(" Cycle Count = %d \n Instruction Count = %d \n Instruction wait = %d \n Load Count = %d \n Store Count = %d \n Unconditional Jump Count = %d \n Branch Count = %d \n Taken Count = %d \n \n", 
            final_perf[0][i], final_perf[1][i], final_perf[2][i], final_perf[3][i], final_perf[4][i], final_perf[5][i], final_perf[6][i], final_perf[7][i]);
     }
+    #endif
     printf("\n");
   }
   else {
