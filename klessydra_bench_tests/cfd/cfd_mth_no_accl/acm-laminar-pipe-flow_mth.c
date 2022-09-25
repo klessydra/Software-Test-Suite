@@ -27,9 +27,9 @@ int main()
     int i,j,step = 1;
 
     __asm__("csrw 0x300, 0x8;" );// each thread enables it's own interrupt
-    //sync_barrier_reset();
-    //sync_barrier_thread_registration();
-    //if (Klessydra_get_coreID() == 0) {
+    sync_barrier_reset();
+    sync_barrier_thread_registration();
+    if (Klessydra_get_coreID() == 0) {
         // initialization of u
         for(i=1;i<=igrid-1;i++)
         {
@@ -43,25 +43,25 @@ int main()
             u[i][0] = -u[i][1];
             u[i][jgrid] = -u[i][jgrid-1];
         }
-    //}
-    //else if (Klessydra_get_coreID() == 1) {
+    }
+    else if (Klessydra_get_coreID() == 1) {
         // initialization of v
         for(i=0;i<=igrid;i++)
         {
             for(j=0;j<=jgrid-1;j++)
                 v[i][j]=0.0;
         }
-    //}
-    //else if (Klessydra_get_coreID() == 2) {
+    }
+    else if (Klessydra_get_coreID() == 2) {
         //initialization of p
         for(i=0;i<=igrid;i++)
         {
             for(j=0;j<=jgrid;j++)
                 p[i][j]=1.0;
         }
-    //}
-    //sync_barrier();
-    //sync_barrier_thread_registration();
+    }
+    sync_barrier();
+    sync_barrier_thread_registration();
 
     //unsigned long int count = __rdtsc(); // cycle counter for x86
     //while(error > 0.000001)
@@ -103,23 +103,23 @@ int main()
             }
         }
 */
-        //sync_barrier();
-        //sync_barrier_thread_registration();
-        //if (Klessydra_get_coreID()== 0) {
+        sync_barrier();
+        sync_barrier_thread_registration();
+        if (Klessydra_get_coreID()== 0) {
             int i = 1;
             int j = 1;
             u[i][j] = u[i][j]-(dt/dx/dy)*( (((u[i+1][j]*u[i+1][j])-(u[i-1][j]*u[i-1][j]))*dy/(2.0))
                                    + (((u[i][j]+u[i][j+1])*(v[i][j]+v[i+1][j]) - (u[i][j]+u[i][j-1])*(v[i][j-1]+v[i+1][j-1]))*dx/(4.0))
                                    + ((p[i+1][j]-p[i][j])*dy)
                                    - (1.0/Re)*(((u[i+1][j]-2.0*u[i][j]+u[i-1][j])*dy/(dx))+((u[i][j+1]-2.0*u[i][j]+u[i][j-1])*dx/(dy))) );
-        //}
-        //sync_barrier();
-        //sync_barrier_thread_registration();
+        }
+        sync_barrier();
+        sync_barrier_thread_registration();
         for(i=1;i<=igrid-1;i++)
         {
             for(j=1;j<=jgrid-1;j++)
             {
-                //if (Klessydra_get_coreID()== 0) {
+                if (Klessydra_get_coreID()== 0) {
                     //solving x-momentum equation
                     if (i <= igrid-2 && j <= jgrid-1) {
                         u[i][j+1] = u[i][j+1]-(dt/dx/dy)*( (((u[i+1][j+1]*u[i+1][j+1])-(u[i-1][j+1]*u[i-1][j+1]))*dy/(2.0))
@@ -127,12 +127,12 @@ int main()
                                                + ((p[i+1][j+1]-p[i][j+1])*dy)
                                                - (1.0/Re)*(((u[i+1][j+1]-2.0*u[i][j+1]+u[i-1][j+1])*dy/(dx))+((u[i][j+2]-2.0*u[i][j+1]+u[i][j])*dx/(dy))) );
                     }
-                //    sync_barrier();
-                //    sync_barrier_thread_registration();
-                //}
-                //else if (Klessydra_get_coreID()== 1) {
-                //    sync_barrier();
-                //    sync_barrier_thread_registration();
+                    sync_barrier();
+                    sync_barrier_thread_registration();
+                }
+                else if (Klessydra_get_coreID()== 1) {
+                    sync_barrier();
+                    sync_barrier_thread_registration();
                     //solving y-momentum equation
                     if (j <= jgrid-2) {
                         v[i][j] = v[i][j]-dt*( (((v[i][j+1]*v[i][j+1])-(v[i][j-1]*v[i][j-1]))*dx/(2.0))
@@ -140,17 +140,17 @@ int main()
                                                + ((p[i][j+1]-p[i][j])*dx)
                                                - (1.0/Re)*(((v[i][j+1]-2.0*v[i][j]+v[i][j-1])*dx/(dy))+((v[i+1][j]-2.0*v[i][j]+v[i-1][j])*dy/(dx))) );
                     }
-                //}
-                //else if (Klessydra_get_coreID()== 2) {
-                //    sync_barrier();
-                //    sync_barrier_thread_registration();
-                //}
+                }
+                else if (Klessydra_get_coreID()== 2) {
+                    sync_barrier();
+                    sync_barrier_thread_registration();
+                }
             }
         }
         
-        //sync_barrier();
-        //sync_barrier_thread_registration();
-        //if (Klessydra_get_coreID() == 0) {
+        sync_barrier();
+        sync_barrier_thread_registration();
+        if (Klessydra_get_coreID() == 0) {
             //x-momentum boundary conditions
             for(j=1;j<=jgrid-1;j++)
             {
@@ -165,19 +165,19 @@ int main()
                 u[i][0] = -u[i][1];
                 u[i][jgrid] = -u[i][jgrid-1];
             }
-        //}
-        //else if (Klessydra_get_coreID() == 1) {
+        }
+        else if (Klessydra_get_coreID() == 1) {
             //y-momentum boundary conditions
             for(i=0;i<=igrid;i++)
             {
                 v[i][0] = 0.0;
                 v[i][jgrid-1] = 0.0;
             }
-        //}
+        }
 
-        //sync_barrier();
-        //sync_barrier_thread_registration();
-        //if (Klessydra_get_coreID() == 0) {
+        sync_barrier();
+        sync_barrier_thread_registration();
+        if (Klessydra_get_coreID() == 0) {
             //continuity equation - solve for p
             for(i=1;i<=igrid-1;i++)
             {
@@ -193,8 +193,8 @@ int main()
                 p[i][0] = p[i][1];
                 p[i][jgrid] = p[i][jgrid-1];
             }
-        //}
-        //else if (Klessydra_get_coreID() == 1) { // final print
+        }
+        else if (Klessydra_get_coreID() == 1) { // final print
             //error
             error = 0.0;
             for(i=1;i<=igrid-1;i++)
@@ -208,10 +208,10 @@ int main()
 
             //if(step%1000 == 1)
                 printf("Error is %f for step %d\n",error,step);
-        //}
+        }
         step++;
-        //sync_barrier();
-        //sync_barrier_thread_registration();
+        sync_barrier();
+        sync_barrier_thread_registration();
     }
     //count = __rdtsc() - count;        // only for printing cycle count in x86
     //printf("\ncount = %lu\n", count); // only for printing cycle count in x86
