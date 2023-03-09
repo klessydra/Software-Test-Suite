@@ -8,69 +8,136 @@
 #include"dsp_functions.h"
 #include"functions.h"
 #include"klessydra_defs.h"
-
+#include "mode.h"
 #define SPM_MAX 64
 #define SIZE_OF_INT 4
 #define N_ROW_1 64
 #define N_COL_1 64
 #define N_COL_2 64
 
-int 	performance=0;
-int 	perf[3]= {0,0,0};
-int* 	ptr_perf[3];
-int perf_results[3][4]={0};
-
-void start_count(){
-	performance=0;
-	int cnt_en=0;
-  __asm__(	
-						// resetto registri
-						"csrrw zero, 0xB00, 	zero;"
-						"csrrw zero, 0xB02, 	zero;"
-						"csrrw zero, 0xB06, 	zero;"
-						"csrrw zero, 0xB07, 	zero;"
-						//abilito tutto
-						// "li %[cnt_en], 0x00000FF3;"
-						"li %[cnt_en], 0x00000063;"
-						"csrrw zero, 0x7A0, %[cnt_en];"
-						:
-						:[cnt_en] "r" (cnt_en)	);
-}
-int finish_count(){
-
-	__asm__("csrrw zero, 0x7A0, 0x00000000");
-	
-	int i = Klessydra_get_coreID();
-
-	__asm__("csrrw %[perf], 0xB00, zero;"
-      "sw %[perf], 0(%[ptr_perf]);"
-      :
-      :[perf] "r" (perf[i]), 	[ptr_perf] "r" (ptr_perf[i])
-      );
-	perf_results[i][0]=perf[i];//CICLI
-	__asm__("csrrw %[perf], 0xB02, zero;"
-		"sw %[perf], 0(%[ptr_perf]);"
-		:
-		:[perf] "r" (perf[i]), 	[ptr_perf] "r" (ptr_perf[i])
-		);
-	perf_results[i][1]=perf[i];//ISTRUZIONI
-
-	__asm__("csrrw %[perf], 0xB06, zero;"
-		"sw %[perf], 0(%[ptr_perf]);"
-		:
-		:[perf] "r" (perf[i]), 	[ptr_perf] "r" (ptr_perf[i])
-		);
-	perf_results[i][2]=perf[i];//Load
-	
-	__asm__("csrrw %[perf], 0xB07, zero;"
-		"sw %[perf], 0(%[ptr_perf]);"
-		:
-		:[perf] "r" (perf[i]), 	[ptr_perf] "r" (ptr_perf[i])
-		);
-	perf_results[i][3]=perf[i];//Store
-			
-	return perf_results;
-}
+#if mode==1
+  int 	performance=0;
+  int 	perf=0;
+  int* 	ptr_perf = &perf;
+  int perf_results[4]={0};
+  
+  void start_count(){
+  	performance=0;
+  	int cnt_en=0;
+    __asm__(	
+  						// resetto registri
+  						"csrrw zero, 0xB00, 	zero;"
+  						"csrrw zero, 0xB02, 	zero;"
+  						"csrrw zero, 0xB06, 	zero;"
+  						"csrrw zero, 0xB07, 	zero;"
+  						//abilito tutto
+  						// "li %[cnt_en], 0x00000FF3;"
+  						"li %[cnt_en], 0x00000063;"
+  						"csrrw zero, 0x7A0, %[cnt_en];"
+  						:
+  						:[cnt_en] "r" (cnt_en)	);
+  }
+  int finish_count(){
+  
+  	__asm__("csrrw zero, 0x7A0, 0x00000000");
+  	
+  	__asm__("csrrw %[perf], 0xB00, zero;"
+        "sw %[perf], 0(%[ptr_perf]);"
+        :
+        :[perf] "r" (perf), 	[ptr_perf] "r" (ptr_perf)
+        );
+  	perf_results[0]=perf;//CICLI
+  	__asm__("csrrw %[perf], 0xB02, zero;"
+  		"sw %[perf], 0(%[ptr_perf]);"
+  		:
+  		:[perf] "r" (perf), 	[ptr_perf] "r" (ptr_perf)
+  		);
+  	perf_results[1]=perf;//ISTRUZIONI
+  
+  	__asm__("csrrw %[perf], 0xB06, zero;"
+  		"sw %[perf], 0(%[ptr_perf]);"
+  		:
+  		:[perf] "r" (perf), 	[ptr_perf] "r" (ptr_perf)
+  		);
+  	perf_results[2]=perf;//Load
+  	
+  	__asm__("csrrw %[perf], 0xB07, zero;"
+  		"sw %[perf], 0(%[ptr_perf]);"
+  		:
+  		:[perf] "r" (perf), 	[ptr_perf] "r" (ptr_perf)
+  		);
+  	perf_results[3]=perf;//Store
+  			
+  			
+  	performance=perf;
+  	/*printf("Fine_Conteggio:\t");
+  	for (int i =0 ; i <4; i++){ 
+  		printf("{%d}=%d\t",i,perf_results[i]);
+  		perf_results[i]=0;
+  	}
+  	printf("\n");
+  	perf=0;
+  	performance=0;*/
+   return perf_results;
+  }
+#else
+  int 	performance=0;
+  int 	perf[3]= {0,0,0};
+  int* 	ptr_perf[3];
+  int perf_results[3][4]={0};
+  
+  void start_count(){
+  	performance=0;
+  	int cnt_en=0;
+    __asm__(	
+  						// resetto registri
+  						"csrrw zero, 0xB00, 	zero;"
+  						"csrrw zero, 0xB02, 	zero;"
+  						"csrrw zero, 0xB06, 	zero;"
+  						"csrrw zero, 0xB07, 	zero;"
+  						//abilito tutto
+  						// "li %[cnt_en], 0x00000FF3;"
+  						"li %[cnt_en], 0x00000063;"
+  						"csrrw zero, 0x7A0, %[cnt_en];"
+  						:
+  						:[cnt_en] "r" (cnt_en)	);
+  }
+  int finish_count(){
+  
+  	__asm__("csrrw zero, 0x7A0, 0x00000000");
+  	
+  	int i = Klessydra_get_coreID();
+  
+  	__asm__("csrrw %[perf], 0xB00, zero;"
+        "sw %[perf], 0(%[ptr_perf]);"
+        :
+        :[perf] "r" (perf[i]), 	[ptr_perf] "r" (ptr_perf[i])
+        );
+  	perf_results[i][0]=perf[i];//CICLI
+  	__asm__("csrrw %[perf], 0xB02, zero;"
+  		"sw %[perf], 0(%[ptr_perf]);"
+  		:
+  		:[perf] "r" (perf[i]), 	[ptr_perf] "r" (ptr_perf[i])
+  		);
+  	perf_results[i][1]=perf[i];//ISTRUZIONI
+  
+  	__asm__("csrrw %[perf], 0xB06, zero;"
+  		"sw %[perf], 0(%[ptr_perf]);"
+  		:
+  		:[perf] "r" (perf[i]), 	[ptr_perf] "r" (ptr_perf[i])
+  		);
+  	perf_results[i][2]=perf[i];//Load
+  	
+  	__asm__("csrrw %[perf], 0xB07, zero;"
+  		"sw %[perf], 0(%[ptr_perf]);"
+  		:
+  		:[perf] "r" (perf[i]), 	[ptr_perf] "r" (ptr_perf[i])
+  		);
+  	perf_results[i][3]=perf[i];//Store
+  			
+  	return perf_results;
+  }
+#endif
 
 int m1[N_ROW_1][N_COL_1]={33, 36, 27, 15, 43, 35, 36, 42, 49, 21, 12, 27, 40, 9, 13, 26, 40, 26, 22, 36, 11, 18, 17, 29, 32, 30, 12, 23, 17, 35, 29, 2, 22, 8, 19, 17, 43, 6, 11, 42, 29, 23, 21, 19, 34, 37, 48, 24, 15, 20, 13, 26, 41, 30, 6, 23, 12, 20, 46, 31, 5, 25, 34, 27, 
 36, 5, 46, 29, 13, 7, 24, 45, 32, 45, 14, 17, 34, 14, 43, 0, 37, 8, 26, 28, 38, 34, 3, 1, 4, 49, 32, 10, 26, 18, 39, 12, 26, 36, 44, 39, 45, 20, 34, 28, 17, 1, 47, 2, 17, 42, 2, 6, 1, 30, 36, 41, 15, 39, 44, 19, 40, 29, 31, 17, 47, 21, 31, 25, 
@@ -205,73 +272,212 @@ int m2[N_COL_1][N_COL_2]={27, 28, 46, 1, 30, 38, 3, 10, 30, 22, 9, 36, 35, 14, 3
 int zero=0;
 
 int main(){
-	ptr_perf[0] = &perf[0];
-	ptr_perf[1] = &perf[1];
-	ptr_perf[2] = &perf[2];
 
-	int n=N_ROW_1;
-	int m=N_COL_1;
-	int u=N_COL_2;
-	int k,p;
-	int scl=SPM_MAX*SPM_MAX/u;
-	int offset[3]={0,0,0};
-	//Matrix initialization
-	int m_out[n][u];
-	for(int i=0;i<n;i++){
-		for(int j=0;j<u;j++){
-			m_out[i][j]=0;
-		}
-	}
-	__asm__("csrw 0x300, 0x8;" );//Enable interrupts for all threads
-	__asm__("csrrw zero, mcycle, zero");
-	CSR_MVSIZE(SPM_MAX*SPM_MAX*SIZE_OF_INT);
-	kbcast((void *)spmaddrA, (void *)zero);
-	kbcast((void *)spmaddrB, (void *)zero);
-	kbcast((void *)spmaddrC, (void *)zero);
-	CSR_MVSIZE(u*SIZE_OF_INT);
-	start_count();
-	for(int i=0;i<n;i++){
-		k=0;
-		p=0;
-		kmemld((void *)((int *)spmaddrA), &m2[0][0],  SIZE_OF_INT*(u*scl));
-		for(int j=0;j<m;j++){
-			if(j%scl==0 & j!=0){
-				p++;
-				k=0;
-				if(m-(p*scl)>scl){
-					kmemld((void *)((int *)spmaddrA), &m2[j][0],  SIZE_OF_INT*(u*scl));
-				}
-				else{
-					kmemld((void *)((int *)spmaddrA), &m2[j][0],  SIZE_OF_INT*((m-scl*p)*u));
+	#if mode==1
+		//printf("Shared mode selected:"\n);
+
+			int n=N_ROW_1;
+			int m=N_COL_1;
+			int u=N_COL_2;
+			int k,p;
+			int scl=SPM_MAX*SPM_MAX/(3*u);
+			int offset[3]={0,0,0};
+			//Matrix initialization
+			int m_out[n][u];
+			for(int i=0;i<n;i++){
+				for(int j=0;j<u;j++){
+					m_out[i][j]=0;
 				}
 			}
-			offset[1]=k*u;
-			ksvmulrf((void *)((int *)spmaddrC),(void *)((int *)spmaddrA+offset[1]),m1[i][j]);
-			kaddv((void *)((int *)spmaddrB),(void *)((int *)spmaddrB),(void *)((int *)spmaddrC));
-			k++;
+			__asm__("csrw 0x300, 0x8;" );//Enable interrupts for all threads
+			__asm__("csrrw zero, mcycle, zero");
+			CSR_MVSIZE(SPM_MAX*SPM_MAX*SIZE_OF_INT);
+			if(Klessydra_get_coreID()==0){
+				kbcast((void *)spmaddrA, (void *)zero);
+			}
+			else if(Klessydra_get_coreID()==1){
+				kbcast((void *)spmaddrB, (void *)zero);
+			}
+			else if(Klessydra_get_coreID()==2){
+				kbcast((void *)spmaddrC, (void *)zero);
+			}
+			sync_barrier();
+			sync_barrier_reset();		
+			sync_barrier_thread_registration();
+			if(Klessydra_get_coreID()==0){
+				start_count();
+				CSR_MVSIZE(u*SIZE_OF_INT);
+				for(int i=0;i<n;i++){
+					k=0;
+					p=0;
+					kmemld((void *)((int *)spmaddrA), &m2[0][0],  SIZE_OF_INT*(u*scl));
+					for(int j=0;j<m;j++){
+						if(j%scl==0 & j!=0){
+							p++;
+							k=0;
+							if(m-(p*scl)>scl){
+								kmemld((void *)((int *)spmaddrA), &m2[j][0],  SIZE_OF_INT*(u*scl));
+							}
+							else{
+								kmemld((void *)((int *)spmaddrA), &m2[j][0],  SIZE_OF_INT*((m-scl*p)*u));
+							}
+						}
+						offset[1]=k*u;
+						ksvmulrf((void *)((int *)spmaddrC),(void *)((int *)spmaddrA+offset[1]),m1[i][j]);
+						kaddv((void *)((int *)spmaddrB),(void *)((int *)spmaddrB),(void *)((int *)spmaddrC));
+						k++;
+					}
+					kmemstr(&m_out[i][0],  (void *)((int *)spmaddrB),  u*SIZE_OF_INT);
+					kbcast((void *)((int *)spmaddrB),(void *)zero);
+				}
+			}
+			if(Klessydra_get_coreID()==1){
+				CSR_MVSIZE(u*SIZE_OF_INT);
+				for(int i=0;i<n;i++){
+					k=0;
+					p=0;
+					kmemld((void *)((int *)spmaddrA+u*scl), &m2[0][0],  SIZE_OF_INT*(u*scl));
+					for(int j=0;j<m;j++){
+						if(j%scl==0 & j!=0){
+							p++;
+							k=0;
+							if(m-(p*scl)>scl){
+								kmemld((void *)((int *)spmaddrA+u*scl), &m2[j][0],  SIZE_OF_INT*(u*scl));
+							}
+							else{
+								kmemld((void *)((int *)spmaddrA+u*scl), &m2[j][0],  SIZE_OF_INT*((m-scl*p)*u));
+							}
+						}
+						offset[1]=u*scl+k*u;
+						ksvmulrf((void *)((int *)spmaddrC+u),(void *)((int *)spmaddrA+offset[1]),m1[i][j]);
+						kaddv((void *)((int *)spmaddrB+u),(void *)((int *)spmaddrB+u),(void *)((int *)spmaddrC+u));
+						k++;
+					}
+					kmemstr(&m_out[i][0],  (void *)((int *)spmaddrB+u),  u*SIZE_OF_INT);
+					kbcast((void *)((int *)spmaddrB+u),(void *)zero);
+				}
+			}
+			if(Klessydra_get_coreID()==2){
+				CSR_MVSIZE(u*SIZE_OF_INT);
+				for(int i=0;i<n;i++){
+					k=0;
+					p=0;
+					kmemld((void *)((int *)spmaddrA+u*scl+u*scl), &m2[0][0],  SIZE_OF_INT*(u*scl));
+					for(int j=0;j<m;j++){
+						if(j%scl==0 & j!=0){
+							p++;
+							k=0;
+							if(m-(p*scl)>scl){
+								kmemld((void *)((int *)spmaddrA+u*scl+u*scl), &m2[j][0],  SIZE_OF_INT*(u*scl));
+							}
+							else{
+								kmemld((void *)((int *)spmaddrA+u*scl+u*scl), &m2[j][0],  SIZE_OF_INT*((m-scl*p)*u));
+							}
+						}
+						offset[1]=k*u+u*scl+u*scl;
+						ksvmulrf((void *)((int *)spmaddrC+u+u),(void *)((int *)spmaddrA+offset[1]),m1[i][j]);
+						kaddv((void *)((int *)spmaddrB+u+u),(void *)((int *)spmaddrB+u+u),(void *)((int *)spmaddrC+u+u));
+						k++;
+					}
+					kmemstr(&m_out[i][0],  (void *)((int *)spmaddrB+u+u),  u*SIZE_OF_INT);
+					kbcast((void *)((int *)spmaddrB+u+u),(void *)zero);
+				}
+			}
+      
+      	if(Klessydra_get_coreID()==0){
+        finish_count();
+        }
+			sync_barrier_reset();		
+			sync_barrier_thread_registration();
+      sync_barrier();
+   
+
+ 		if(Klessydra_get_coreID()==0){
+			//performance=perf;
+			printf("\n");
+			printf("Num_cycles:%d\n",perf_results[0]);
+			printf("\n");
+			//perf=0;
+			//performance=0;
+	     //printf("Num_cycles:%d\n",n_cycle);
+			return 0;
 		}
-		kmemstr(&m_out[i][0],  (void *)((int *)spmaddrB),  u*SIZE_OF_INT);
-		kbcast((void *)((int *)spmaddrB),(void *)zero);
-	}
-	finish_count();
-	sync_barrier_reset();		
-	sync_barrier_thread_registration();
-	sync_barrier();
+		else {
+			__asm__("wfi;");
+		}
 	
-	if(Klessydra_get_coreID()==0){
-		//performance=perf;
-		printf("\n");
-		printf("Fine_Conteggio:\t");
-		for (int i =0 ; i <4; i++){ 
-			printf("{%d}=%d\t",i,(perf_results[0][i]+perf_results[1][i]+perf_results[2][i])/3);
-			//perf_results[i]=0;
+#else
+		//printf("Dedicated mode selected:\n");
+		ptr_perf[0] = &perf[0];
+		ptr_perf[1] = &perf[1];
+		ptr_perf[2] = &perf[2];
+
+
+		int n=N_ROW_1;
+		int m=N_COL_1;
+		int u=N_COL_2;
+		int k,p;
+		int scl=SPM_MAX*SPM_MAX/u;
+		int offset[3]={0,0,0};
+		//Matrix initialization
+		int m_out[n][u];
+		for(int i=0;i<n;i++){
+			for(int j=0;j<u;j++){
+				m_out[i][j]=0;
+			}
 		}
-		printf("\n");
-		//perf=0;
-		//performance=0;
-		return 0;
-	}
-	else {
-		__asm__("wfi;");
-	}
+		__asm__("csrw 0x300, 0x8;" );//Enable interrupts for all threads
+		__asm__("csrrw zero, mcycle, zero");
+		CSR_MVSIZE(SPM_MAX*SPM_MAX*SIZE_OF_INT);
+		kbcast((void *)spmaddrA, (void *)zero);
+		kbcast((void *)spmaddrB, (void *)zero);
+		kbcast((void *)spmaddrC, (void *)zero);
+		CSR_MVSIZE(u*SIZE_OF_INT);
+		start_count();
+		for(int i=0;i<n;i++){
+			k=0;
+			p=0;
+			kmemld((void *)((int *)spmaddrA), &m2[0][0],  SIZE_OF_INT*(u*scl));
+			for(int j=0;j<m;j++){
+				if(j%scl==0 & j!=0){
+					p++;
+					k=0;
+					if(m-(p*scl)>scl){
+						kmemld((void *)((int *)spmaddrA), &m2[j][0],  SIZE_OF_INT*(u*scl));
+					}
+					else{
+						kmemld((void *)((int *)spmaddrA), &m2[j][0],  SIZE_OF_INT*((m-scl*p)*u));
+					}
+				}
+				offset[1]=k*u;
+				ksvmulrf((void *)((int *)spmaddrC),(void *)((int *)spmaddrA+offset[1]),m1[i][j]);
+				kaddv((void *)((int *)spmaddrB),(void *)((int *)spmaddrB),(void *)((int *)spmaddrC));
+				k++;
+			}
+			kmemstr(&m_out[i][0],  (void *)((int *)spmaddrB),  u*SIZE_OF_INT);
+			kbcast((void *)((int *)spmaddrB),(void *)zero);
+		}
+		finish_count();
+		sync_barrier_reset();		
+		sync_barrier_thread_registration();
+		sync_barrier();
+		
+		if(Klessydra_get_coreID()==0){
+			//performance=perf;
+			printf("\n");
+			for (int i =0 ; i <1; i++){ 
+				printf("Num_cycles:%d\n",(perf_results[0][i]+perf_results[1][i]+perf_results[2][i])/3);
+				//perf_results[i]=0;
+			}
+			printf("\n");
+			//perf=0;
+			//performance=0;
+	     //printf("Num_cycles:%d\n",n_cycle);
+			return 0;
+		}
+		else {
+			__asm__("wfi;");
+		}
+#endif	
 }
+

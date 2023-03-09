@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # hack to make sure the perfbench.* libraries compile
 include_directories(
   ${CMAKE_SOURCE_DIR}/libs/bench_lib/inc
